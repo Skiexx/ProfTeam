@@ -3,4 +3,12 @@ version: '3'
 services:
     php:
       environment:
-        - DevEnv=true
+      - DevMode=${DEVMODE}
+
+    db:
+      ports:
+      - "5432:5432"
+
+    adminer:
+      ports:
+      - "8080:8080"
