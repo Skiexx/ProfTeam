@@ -16,8 +16,9 @@ services:
         - "80:80"
         networks:
         - default
+        volumes:
+        - ./nginx/nginx.prod.conf:/etc/nginx/conf.d/nginx.conf
         depends_on:
-        - adminer
         - php
     db:
         image: postgres:15.0-alpine
@@ -34,15 +35,6 @@ services:
     php:
         image: php:8.1.12-alpine
         container_name: php
-        restart: unless-stopped
-#        volumes:
-#        - ./php/html:/var/www/html
-        networks:
-        - default
-
-    adminer:
-        image: adminer:4.8.1
-        container_name: adminer
         restart: unless-stopped
         networks:
         - default
