@@ -9,7 +9,10 @@ networks:
 
 services:
     proxy:
-        image: nginx:1.23.2-alpine
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile
+        image: profteam/nginx
         container_name: profteam-nginx
         restart: unless-stopped
         environment:

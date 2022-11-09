@@ -1,7 +1,42 @@
 # Prof Team
-## Launch dev build
-```
+Environment with PHP, NGINX, PostgreSQL, Adminer
+## Launch prod build
+1. Clone this repo
+```bash
 git clone https://github.com/Skiexx/ProfTeam.git
+```
+2. Go to the project folder
+```bash
 cd ProfTeam
-docker-compose --env-file dev.env -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+```
+3. Create .env file by example
+```bash
+cp .env.example .env
+```
+4. Edit .env file
+```bash
+nano .env
+```
+5. Run docker-compose
+```bash
+docker-compose -f docker-compose.prod.yml up -d
+```
+## Launch dev build
+1. Clone this repo
+```bash
+git clone https://github.com/Skiexx/ProfTeam.git
+```
+2. Go to the project folder
+```bash
+cd ProfTeam
+```
+3. Run docker-compose for dev build
+```bash
+docker-compose --env-file dev.env up -d --build
+```
+### Aditional you can edit hosts file for your OS to redirect *dev.profteam.ru* to *localhost*  
+For Linux:
+```
+sudo nano /etc/hosts
+add line: 127.0.0.1 dev.profteam.ru
 ```
