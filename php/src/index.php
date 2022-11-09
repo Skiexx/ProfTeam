@@ -1,3 +1,4 @@
 <?php
 
-echo 'Hello World!';
+$message = 'Hello World! Edited!';
+echo $message;

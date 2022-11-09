@@ -4,28 +4,34 @@ services:
     php:
         build:
             context: ./php
-            dockerfile: Dockerfile.dev
+            dockerfile: dev.Dockerfile
+        image: profteam/php
+        container_name: profteam-php
         environment:
-        - DEVMODE=${DEVMODE}
-        volumes:
-        - ./php/php.dev.ini:/usr/local/etc/php/php.ini
-        - ./php/src:/var/www/html
+        - DEVMODE=true
+#        volumes:
+        - ./php/php.dev.ini:/usr/local/etc/php/conf.d/40-custom.ini
+        - ./php/src:/var/www/dev
+        command: "php-fpm"
 
     db:
         ports:
-        - "5432:5432"
+        - "${DB_PORT:-5432}:5432"
 
     adminer:
         image: adminer:4.8.1
-        container_name: adminer
+        container_name: profteam-adminer
         restart: unless-stopped
         networks:
         - default
         ports:
-        - "8080:8080"
+        - "${ADMINER_PORT:-8080}:8080"
 
     proxy:
+        environment:
+            PHP_PORT: ${PHP_PORT:-7000}
+            ADMINER_PORT: ${ADMINER_PORT:-8080}
         volumes:
-        - ./nginx/nginx.dev.conf:/etc/nginx/conf.d/default.conf
+        - ./nginx/nginx.dev.conf:/etc/nginx/templates/default.conf.template
         depends_on:
         - adminer
