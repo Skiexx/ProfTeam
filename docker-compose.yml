@@ -58,6 +58,7 @@ services:
         environment:
             ADMINER_PORT: ${ADMINER_PORT:-8080}
             NGINX_HOST: ${NGINX_HOST:-dev.profteam.ru}
+            PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR}
         networks:
             - default
         volumes:

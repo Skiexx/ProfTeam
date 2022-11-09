@@ -38,5 +38,5 @@ docker-compose --env-file dev.env up -d --build
 For Linux:
 ```
 sudo nano /etc/hosts
-add line: 127.0.0.1 dev.profteam.ru
 ```
+add line to the end: `127.0.0.1 dev.profteam.ru`
