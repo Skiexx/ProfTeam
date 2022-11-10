@@ -11,12 +11,13 @@ services:
     proxy:
         build:
             context: .
-            dockerfile: ./nginx/Dockerfile
+            dockerfile: ./nginx/prod.Dockerfile
         image: profteam/nginx
         container_name: profteam-nginx
         restart: unless-stopped
         environment:
             PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-php}
+            NGINX_SERVER: ${NGINX_SERVER:prod.profteam.ru}
         volumes:
             - ./nginx/logs:/var/log/nginx
         ports:
@@ -31,6 +32,9 @@ services:
         build:
             context: .
             dockerfile: ./php/prod.Dockerfile
+            args:
+                PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-php}
+                NGINX_SERVER: ${NGINX_SERVER:-prod.profteam.ru}
         image: profteam/php-prod
         container_name: profteam-php
         restart: unless-stopped

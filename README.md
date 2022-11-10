@@ -40,11 +40,11 @@ nano .env
 ```
 5. Run docker-compose for dev build
 ```bash
-docker-compose --env-file dev.env up -d --build
+docker-compose up -d --build
 ```
 ### Aditional you can edit hosts file for your OS to redirect *profteam.ru* to *localhost*  
 For Linux:
 ```
 sudo nano /etc/hosts
 ```
-add line to the end: `127.0.0.1 profteam.ru`
+add line to the end: `127.0.0.1 dev.profteam.ru`
