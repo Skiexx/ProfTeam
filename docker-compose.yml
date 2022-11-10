@@ -4,7 +4,7 @@ volumes:
     db_data:
 
 networks:
-    default:
+    network:
         driver: bridge
 
 services:
@@ -16,12 +16,12 @@ services:
         container_name: profteam-php
         restart: unless-stopped
         networks:
-        - default
+        - network
         environment:
         - DEVMODE=true
         volumes:
         - ./www:/var/www
-        links:
+        depends_on:
         - db
 
     db:
@@ -35,7 +35,7 @@ services:
         volumes:
         - db_data:/var/lib/postgresql/data
         networks:
-        - default
+        - network
         ports:
         - "${DB_PORT:-5432}:5432"
 
@@ -44,7 +44,7 @@ services:
         container_name: profteam-adminer
         restart: unless-stopped
         networks:
-        - default
+        - network
         ports:
         - "${ADMINER_PORT:-8080}:8080"
 
@@ -57,14 +57,13 @@ services:
             - "${NGINX_PORT_SSL:-443}:443"
         environment:
             ADMINER_PORT: ${ADMINER_PORT:-8080}
-            NGINX_HOST: ${NGINX_HOST:-dev.profteam.ru}
-            PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR}
+            PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-php}
         networks:
-            - default
+            - network
         volumes:
         - ./nginx/core/nginx.dev.conf:/etc/nginx/templates/default.conf.template
         - ./www:/var/www
         - ./nginx/logs:/var/log/nginx
         - ./nginx/html:/usr/share/nginx/html
-        links:
+        depends_on:
         - php

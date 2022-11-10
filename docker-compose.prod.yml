@@ -16,8 +16,7 @@ services:
         container_name: profteam-nginx
         restart: unless-stopped
         environment:
-            NGINX_HOST: ${NGINX_HOST:-www.profteam.ru}
-            PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR}
+            PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-php}
         volumes:
             - ./nginx/logs:/var/log/nginx
         ports:
@@ -37,6 +36,8 @@ services:
         restart: unless-stopped
         networks:
             - default
+        depends_on:
+            - db
 
     db:
         image: postgres:15.0-alpine
