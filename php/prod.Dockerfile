@@ -19,8 +19,8 @@ RUN install-php-extensions \
 RUN rm -rf /var/cache/apk/*
 
 # Copy existing application directory contents
-COPY ./nginx/www/ /var/www/
+COPY ./www/ /var/www/
 
-WORKDIR /var/www/php
+WORKDIR /var/www/${PHP_PROJECT_DIR}
 
 CMD ["php-fpm"]

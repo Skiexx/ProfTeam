@@ -10,8 +10,8 @@ networks:
 services:
     proxy:
         build:
-            context: ./nginx
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: ./nginx/Dockerfile
         image: profteam/nginx
         container_name: profteam-nginx
         restart: unless-stopped

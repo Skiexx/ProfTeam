@@ -20,7 +20,7 @@ services:
         environment:
         - DEVMODE=true
         volumes:
-        - ./nginx/www:/var/www
+        - ./www:/var/www
         links:
         - db
 
@@ -63,8 +63,8 @@ services:
             - default
         volumes:
         - ./nginx/core/nginx.dev.conf:/etc/nginx/templates/default.conf.template
-        - ./nginx/www:/var/www
+        - ./www:/var/www
         - ./nginx/logs:/var/log/nginx
-        - ./nging/html:/usr/share/nginx/html
+        - ./nginx/html:/usr/share/nginx/html
         links:
         - php
