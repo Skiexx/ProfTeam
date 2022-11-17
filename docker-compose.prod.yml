@@ -12,6 +12,10 @@ services:
         build:
             context: .
             dockerfile: ./nginx/prod.Dockerfile
+            args:
+                PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-php}
+                NGINX_SERVER: ${NGINX_SERVER:-dev.profteam.ru}
+                INDEX_FILE_ROUTE: ${INDEX_FILE_ROUTE:-public/index.php}
         image: profteam/nginx
         container_name: profteam-nginx
         restart: unless-stopped
