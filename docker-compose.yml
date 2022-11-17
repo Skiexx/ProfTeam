@@ -70,6 +70,5 @@ services:
         volumes:
         - ./www:/var/www
         - ./nginx/logs:/var/log/nginx
-        - ./nginx/html:/usr/share/nginx/html
         depends_on:
         - php
