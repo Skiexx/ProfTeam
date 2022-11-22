@@ -12,9 +12,13 @@ services:
         build:
             context: .
             dockerfile: ./php/dev.Dockerfile
+            args:
+                DOCKER_HOST_IP: ${DOCKER_HOST_IP:-host.docker.internal}
         image: profteam/php-dev
         container_name: profteam-php
         restart: unless-stopped
+        extra_hosts:
+            - host.docker.internal:host-gateway
         networks:
         - network
         environment:
