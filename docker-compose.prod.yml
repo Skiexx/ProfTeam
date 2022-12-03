@@ -13,15 +13,15 @@ services:
             context: .
             dockerfile: ./nginx/prod.Dockerfile
             args:
-                PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-php}
-                NGINX_SERVER: ${NGINX_SERVER:-dev.profteam.ru}
+                PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-html}
+                NGINX_SERVER: ${NGINX_SERVER:-prod.profteam.ru}
                 INDEX_FILE_ROUTE: ${INDEX_FILE_ROUTE:-public/index.php}
         image: profteam/nginx
         container_name: profteam-nginx
         restart: unless-stopped
         environment:
-            PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-php}
-            NGINX_SERVER: ${NGINX_SERVER:prod.profteam.ru}
+            PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-html}
+            NGINX_SERVER: ${NGINX_SERVER:-prod.profteam.ru}
         volumes:
             - ./nginx/logs:/var/log/nginx
         ports:
@@ -37,8 +37,7 @@ services:
             context: .
             dockerfile: ./php/prod.Dockerfile
             args:
-                PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-php}
-                NGINX_SERVER: ${NGINX_SERVER:-prod.profteam.ru}
+                PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-html}
         image: profteam/php-prod
         container_name: profteam-php
         restart: unless-stopped

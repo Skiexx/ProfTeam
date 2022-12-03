@@ -14,6 +14,7 @@ services:
             dockerfile: ./php/dev.Dockerfile
             args:
                 DOCKER_HOST_IP: ${DOCKER_HOST_IP:-host.docker.internal}
+                PHP_PROJECT_DIR: /var/www/${PHP_PROJECT_DIR:-html}
         image: profteam/php-dev
         container_name: profteam-php
         restart: unless-stopped
@@ -22,7 +23,6 @@ services:
         networks:
         - network
         environment:
-            DEVMODE: true
             DB_PASSWORD: ${DB_PASSWORD:-QWEasd123$}
             DB_USER: ${DB_USER:-postgres}
             DB_DATABASE: ${DB_DATABASE:-postgres}

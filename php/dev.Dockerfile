@@ -1,7 +1,11 @@
 FROM php:8.1.12-fpm-alpine
 
+# Create a non-root user
+RUN addgroup -g 1000 -S phppower && \
+    adduser -u 1000 -S phppower -G phppower
+
 # Copy existing application directory contents
-COPY ./www/ /var/www/
+COPY --chown=phppower:phppower ./www/ /var/www/
 
 # Add php.ini
 COPY ./php/php.dev.ini /usr/local/etc/php/conf.d/40-custom.ini
@@ -11,7 +15,11 @@ ARG DOCKER_HOST_IP
 RUN sed -i 's#{{DOCKER_HOST_IP}}#'$DOCKER_HOST_IP'#g' /usr/local/etc/php/conf.d/40-custom.ini
 
 # Install composer
+ARG PHP_PROJECT_DIR
+WORKDIR $PHP_PROJECT_DIR
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Run composer install
 ARG COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install
 
@@ -31,6 +39,8 @@ RUN install-php-extensions \
 # Clear cache
 RUN rm -rf /var/cache/apk/*
 
-WORKDIR /var/www/
+# Change current user to non-root user
+USER phppower
 
+# Start php-fpm server
 CMD ["php-fpm"]

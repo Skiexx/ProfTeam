@@ -1,10 +1,16 @@
 FROM php:8.1.12-fpm-alpine
 
+# Copy existing application directory contents
+COPY ./www/ /var/www/
+
 # Add php.ini
 COPY ./php/php.prod.ini /usr/local/etc/php/conf.d/40-custom.ini
 
 # Install composer
+ARG PHP_PROJECT_DIR
+WORKDIR $PHP_PROJECT_DIR
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+ARG COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install
 
 # Install dependencies
@@ -21,10 +27,5 @@ RUN install-php-extensions \
 
 # Clear cache
 RUN rm -rf /var/cache/apk/*
-
-# Copy existing application directory contents
-COPY ./www/ /var/www/
-
-WORKDIR /var/www/${PHP_PROJECT_DIR}
 
 CMD ["php-fpm"]
